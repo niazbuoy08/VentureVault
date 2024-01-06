@@ -12,13 +12,13 @@ public class LoginPage extends JFrame implements ActionListener {
         setTitle("Online Bank Management System");
 
 
-        ImageIcon originalIcon = new ImageIcon("C:\\Users\\User\\Downloads\\Untitled design (9).png");
+        ImageIcon originalIcon = new ImageIcon("C:\\Users\\User\\Downloads\\Venture Vault (1).png");
 
 
         int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
         int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-        int maxScaledWidth = 500;
-        int maxScaledHeight = 300;
+        int maxScaledWidth = 400;
+        int maxScaledHeight = 400;
 
 
         int scaledWidth = Math.min(maxScaledWidth, originalIcon.getIconWidth());
@@ -73,6 +73,7 @@ public class LoginPage extends JFrame implements ActionListener {
 
         signin = new JButton("SIGN IN");
         signin.setBounds(800,380,100,30);
+        signin.setBackground(Color.lightGray);
         signin.addActionListener(this);
         add(signin);
 
@@ -80,11 +81,13 @@ public class LoginPage extends JFrame implements ActionListener {
         clear = new JButton("CLEAR");
         clear.setBounds(950,380,100,30);
         clear.addActionListener(this);
+        clear.setBackground(Color.lightGray);
         add(clear);
 
         signup = new JButton("SIGNUP");
         signup.setBounds(880,430,100,30);
         signup.addActionListener(this);
+        signup.setBackground(Color.lightGray);
         add(signup);
     }
 

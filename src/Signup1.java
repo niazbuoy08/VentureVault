@@ -1,109 +1,204 @@
-import java.awt.*;
 import javax.swing.*;
-import java.util.Random;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import com.toedter.calendar.JDateChooser;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
-public class Signup1 extends JFrame {
+
+public class Signup1 extends JFrame implements ActionListener {
+
+    private JRadioButton male, female, others, married, unmarried;
+    private JButton backButton, nextButton;
+
+    private long random;
+
+    private JTextField nameTextField, fnameTextField, mnameTextField, emailTextField, addressTextField;
+    private JDateChooser dateChooser;
 
     public Signup1() {
+        setLayout(new BorderLayout());
 
-        setLayout(null);
-
-        Random ran = new Random();
-        long random = Math.abs(ran.nextLong());
-
-        JLabel formNo = new JLabel("APPLICATION FORM NO " + random);
-        formNo.setFont(new Font("Raleway", Font.BOLD, 38));
-        formNo.setBounds(240, 10, 800, 40);
-        add(formNo);
-
-        JLabel PersonalDetails = new JLabel("Personal Details");
-        PersonalDetails.setFont(new Font("Raleway", Font.BOLD, 28));
-        PersonalDetails.setBounds(500, 60, 500, 30);
-        add(PersonalDetails);
-
-        JLabel name = new JLabel("Name:");
-        name.setFont(new Font("Raleway", Font.BOLD, 22));
-        name.setBounds(200, 160, 100, 30);
-        add(name);
-
-        JTextField nameTextField = new JTextField();
-        nameTextField.setFont(new Font("Raleways",Font.BOLD,14));
-        nameTextField.setBounds(400,160,400,30);
-        add(nameTextField);
-
-        JLabel fname = new JLabel("Father's Name:");
-        fname.setFont(new Font("Raleway", Font.BOLD, 22));
-        fname.setBounds(200, 205, 400, 30);
-        add(fname);
-
-        JTextField fnameTextField = new JTextField();
-        fnameTextField.setFont(new Font("Raleways",Font.BOLD,14));
-        fnameTextField.setBounds(400,205,400,30);
-        add(fnameTextField);
+        JLabel formNoLabel = new JLabel("APPLICATION FORM NO " + random);
+        formNoLabel.setFont(new Font("Raleway", Font.BOLD, 20));
+        formNoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(formNoLabel, BorderLayout.NORTH);
 
 
-        JLabel mname = new JLabel("Mother's Name:");
-        mname.setFont(new Font("Raleway", Font.BOLD, 22));
-        mname.setBounds(200, 250, 400, 30);
-        add(mname);
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new GridLayout(10, 2));
 
-        JTextField mnameTextField = new JTextField();
-        mnameTextField.setFont(new Font("Raleways",Font.BOLD,14));
-        mnameTextField.setBounds(400,250,400,30);
-        add(mnameTextField);
+        formPanel.add(new JLabel("Name:"));
+        nameTextField = new JTextField();
+        formPanel.add(nameTextField);
+
+        formPanel.add(new JLabel("Father's Name:"));
+        fnameTextField = new JTextField();
+        formPanel.add(fnameTextField);
+
+        formPanel.add(new JLabel("Mother's Name:"));
+        mnameTextField = new JTextField();
+        formPanel.add(mnameTextField);
+
+        formPanel.add(new JLabel("Date of Birth:"));
+        dateChooser = new JDateChooser();
+        formPanel.add(dateChooser);
+
+        formPanel.add(new JLabel("Gender:"));
+        male = new JRadioButton("Male");
+        female = new JRadioButton("Female");
+        others = new JRadioButton("Others");
+
+        ButtonGroup genderGroup = new ButtonGroup();
+        genderGroup.add(male);
+        genderGroup.add(female);
+        genderGroup.add(others);
+
+        JPanel genderPanel = new JPanel();
+        genderPanel.add(male);
+        genderPanel.add(female);
+        genderPanel.add(others);
+        formPanel.add(genderPanel);
+
+        formPanel.add(new JLabel("E-Mail:"));
+        emailTextField = new JTextField();
+        formPanel.add(emailTextField);
+
+        formPanel.add(new JLabel("Marital Status:"));
+        married = new JRadioButton("Married");
+        unmarried = new JRadioButton("Unmarried");
+
+        ButtonGroup maritalgroup = new ButtonGroup();
+        maritalgroup.add(married);
+        maritalgroup.add(unmarried);
+
+        JPanel maritalPanel = new JPanel();
+        maritalPanel.add(married);
+        maritalPanel.add(unmarried);
+        formPanel.add(maritalPanel);
+
+        formPanel.add(new JLabel("Current Address:"));
+        addressTextField = new JTextField();
+        formPanel.add(addressTextField);
+
+        add(formPanel, BorderLayout.CENTER);
+
+        nextButton = new JButton("Next");
+        nextButton.setBackground(Color.lightGray);
+        nextButton.setFont(new Font("Raleway", Font.BOLD, 16));
+        nextButton.addActionListener(this);
+        add(nextButton, BorderLayout.SOUTH);
+
+        backButton = new JButton("Back");
+        backButton.setBackground(Color.lightGray);
+        backButton.setFont(new Font("Raleway", Font.BOLD, 16));
+        backButton.addActionListener(this);
+        add(backButton, BorderLayout.WEST);
 
 
-        JLabel dob = new JLabel("Date of Birth:");
-        dob.setFont(new Font("Raleway", Font.BOLD, 22));
-        dob.setBounds(200, 300, 400, 30);
-        add(dob);
-
-        JDateChooser dateChooser = new JDateChooser();
-        dateChooser.setBounds(400,300,400,30);
-        add(dateChooser);
-
-        JLabel gender = new JLabel("Gender:");
-        gender.setFont(new Font("Raleway", Font.BOLD, 22));
-        gender.setBounds(200, 350, 400, 30);
-        add(gender);
-
-        JLabel email = new JLabel("E-Mail:");
-        email.setFont(new Font("Raleway", Font.BOLD, 22));
-        email.setBounds(200, 400, 400, 30);
-        add(email);
-
-        JTextField emailTextField = new JTextField();
-        emailTextField.setFont(new Font("Raleways",Font.BOLD,14));
-        emailTextField.setBounds(400,400,400,30);
-        add(emailTextField);
-
-
-        JLabel mstatus = new JLabel("Marital Status:");
-        mstatus.setFont(new Font("Raleway", Font.BOLD, 22));
-        mstatus.setBounds(200, 450, 400, 30);
-        add(mstatus);
-
-        JLabel address = new JLabel("Current Address:");
-        address.setFont(new Font("Raleway", Font.BOLD, 22));
-        address.setBounds(200, 500, 400, 30);
-        add(address);
-
-        JTextField addressTextField = new JTextField();
-        addressTextField.setFont(new Font("Raleways",Font.BOLD,14));
-        addressTextField.setBounds(400,500,400,30);
-        add(addressTextField);
-
-
-        // Get the screen size
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = (int) screenSize.getWidth();
-        int screenHeight = (int) screenSize.getHeight();
-
-        setSize(screenWidth, screenHeight);
-        setLocationRelativeTo(null); // Center the frame on the screen
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == backButton) {
+            LoginPage loginPage = new LoginPage();
+            loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            dispose();
+        } else if (ae.getSource() == nextButton) {
+
+            if (validateInputs()) {
+                insertDataIntoDatabase(
+                        nameTextField.getText(),
+                        fnameTextField.getText(),
+                        mnameTextField.getText(),
+                        dateChooser.getDate(),
+                        getSelectedGender(),
+                        emailTextField.getText(),
+                        getMaritalStatus(),
+                        addressTextField.getText()
+                );
+            }
+        }
+    }
+
+    private boolean validateInputs() {
+        if (nameTextField.getText().isEmpty() || fnameTextField.getText().isEmpty() ||
+                mnameTextField.getText().isEmpty() || dateChooser.getDate() == null ||
+                getSelectedGender() == null || emailTextField.getText().isEmpty() ||
+                getMaritalStatus() == null || addressTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private String getSelectedGender() {
+        if (male.isSelected()) {
+            return "Male";
+        } else if (female.isSelected()) {
+            return "Female";
+        } else if (others.isSelected()) {
+            return "Others";
+        } else {
+            return null;
+        }
+    }
+
+    private String getMaritalStatus() {
+        if (married.isSelected()) {
+            return "Married";
+        } else if (unmarried.isSelected()) {
+            return "Unmarried";
+        } else {
+            return null;
+        }
+    }
+
+    private void insertDataIntoDatabase(String name, String fatherName, String motherName,
+                                        Date dob, String gender, String email, String maritalStatus, String address) {
+        try (Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "BankUser", "niaz081210")) {
+            // Use the next value from the sequence for the form number
+            String sql = "INSERT INTO USER_INFO (FORM_NO, NAME, FATHER_NAME, MOTHER_NAME, DOB, GENDER, EMAIL, MARITAL_STATUS, ADDRESS) " +
+                    "VALUES (form_number_seq.NEXTVAL, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, fatherName);
+                preparedStatement.setString(3, motherName);
+
+                // Convert java.util.Date to java.sql.Date
+                java.sql.Date sqlDate = new java.sql.Date(dob.getTime());
+                preparedStatement.setDate(4, sqlDate);
+
+                preparedStatement.setString(5, gender);
+                preparedStatement.setString(6, email);
+                preparedStatement.setString(7, maritalStatus);
+                preparedStatement.setString(8, address);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Data inserted into database successfully!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "No rows were affected. Data not inserted.");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error inserting data into database: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
 }
+
